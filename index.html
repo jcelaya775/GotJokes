@@ -9,26 +9,26 @@
   </head>
 
   <body>
-    <div class="joke">
+    <div class="container">
       <h2 id="text"></h2>
-      <div class="buttons">
+      <div class="button-container">
         <img
-        src="images\back.png"
-        alt="Back"
-        class="button"
-        onClick="prevJoke()"
-        id="back"
-      />
-      <img
-        src="images\next.png"
-        alt="Next"
-        class="button"
-        onClick="getJoke()"
-        id="next"
-      />
+          src="images\back.png"
+          alt="Back"
+          class="button"
+          onClick="prevJoke()"
+          id="back"
+        />
+        <img
+          src="images\next.png"
+          alt="Next"
+          class="button"
+          onClick="nextJoke()"
+          id="next"
+        />
       </div>
     </div>
-    
-    <script src="Jokes.js"></script>
+
+    <script src="jokes.js"></script>
   </body>
 </html>

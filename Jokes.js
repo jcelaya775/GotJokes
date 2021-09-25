@@ -1,48 +1,46 @@
 let jokes = [];
-let currentJoke = '';
-getJoke();
+let index = -1;
+nextJoke();
 
 function prevJoke() {
-  let n = jokes.length;
-  /* if there are less than 2 jokes or current joke is first joke -> return nothing */
-  if (n < 2) return;
-  if (currentJoke == jokes[0]) return;
+  /* if current joke is the first joke -> do nothing */
+  if (index == 0) return;
 
-  let prevIndex = jokes.indexOf(currentJoke) - 1; //the index of the previous joke
-
-  document.getElementById('text').innerText = jokes[prevIndex];
-  currentJoke = jokes[prevIndex];
-  console.log(jokes);
+  let prevJoke = jokes[index - 1];
+  document.getElementById('text').innerText = prevJoke; // update UI
+  index--;
 }
 
-function getJoke() {
-  /* if user is not on a new joke and has seen 
-       at least 2 jokes -> show next joke of stored jokes */
-  if (jokes.length >= 2 && jokes.indexOf(currentJoke) != jokes.length - 1) {
-    currentJoke = jokes[jokes.indexOf(currentJoke) + 1];
-    document.getElementById('text').innerText = currentJoke;
+function nextJoke() {
+  /* if user is not on a new joke -> show next joke of stored jokes */
+  if (index < jokes.length - 1) {
+    let nextJoke = jokes[index + 1];
+    document.getElementById('text').innerText = nextJoke;
+    index++;
     return;
   }
+
   /* gets a new joke from api */
-  fetch('https://sv443.net/jokeapi/v2/joke/Any?type=single')
+  fetch('https://sv443.net/jokeapi/v2/joke/Any?safe-mode&type=single')
     .then((response) => {
       console.log(response);
       return response.json();
     })
     .then((json) => {
       currentJoke = json.joke;
-      document.getElementById('text').innerText = currentJoke;
+      document.getElementById('text').innerText = currentJoke; // update UI
       jokes.push(currentJoke);
+      index++;
 
       let scaleBox = (() => {
-        let height = document.getElementById('text').getBoundingClientRect()
-          .height;
+        let height = document
+          .getElementById('text')
+          .getBoundingClientRect().height;
         let attr = (3 * height).toString() + '%';
-        document.getElementsByClassName('joke')[0].style.height = attr;
+        document.getElementsByClassName('container')[0].style.height = attr;
       })();
     })
     .catch((err) => {
       console.log(err);
     });
-  console.log(jokes);
 }
